@@ -62,16 +62,12 @@ fun uiTayImageBitmapPath(path: String): Bitmap? {
 }
 
 fun Context.uiTayCreatePictureFile(nameFile: String = "imgSave"): File {
-    val pictureFileName: String
-    val calendar = Calendar.getInstance()
-    pictureFileName = calendar.timeInMillis.toString()
     val storageDir = this.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-    val picture = File("$storageDir/$nameFile", "$pictureFileName.jpg")
     val newPath = File("$storageDir$nameFile")
     if (!newPath.exists()) {
         newPath.mkdirs()
     }
-    return picture
+    return newPath
 }
 
 fun Context.uiTaySaveImg(
