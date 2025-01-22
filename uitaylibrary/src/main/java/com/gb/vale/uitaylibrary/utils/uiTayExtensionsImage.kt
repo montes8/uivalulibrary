@@ -14,6 +14,8 @@ import android.graphics.drawable.Drawable
 import android.media.ThumbnailUtils
 import android.net.Uri
 import android.os.Environment
+import android.os.Handler
+import android.os.Looper
 import android.os.StrictMode
 import android.util.Base64
 import android.util.Log
@@ -156,26 +158,29 @@ fun ImageView.uiTayLoadUrl(
     url: String = UI_TAY_EMPTY, circle: Boolean = false,
     placeHolder: Drawable = this.context.uiTayDrawableRound(R.color.ui_tay_gray, R.dimen.dim_tay_0)
 ) {
-    val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
-    StrictMode.setThreadPolicy(policy)
-    val bitmap: Bitmap?
-    val inputStream: InputStream
-    try {
-        inputStream = URL(url).openStream()
-        bitmap = BitmapFactory.decodeStream(inputStream)
-        if (circle){
-            val imgCircle = bitmap.converterCircle()
-            imgCircle?.let {
-                this.setImageBitmap(it)
-            }?:this.setImageDrawable(placeHolder)
-        }else{
-            bitmap?.let {
-                this.setImageBitmap(it)
-            } ?:this.setImageDrawable(placeHolder)
+    val handler = Handler(Looper.getMainLooper())
+    handler.post {
+        val policy = StrictMode.ThreadPolicy.Builder().permitAll().build()
+        StrictMode.setThreadPolicy(policy)
+        val bitmap: Bitmap?
+        val inputStream: InputStream
+        try {
+            inputStream = URL(url).openStream()
+            bitmap = BitmapFactory.decodeStream(inputStream)
+            if (circle) {
+                val imgCircle = bitmap.converterCircle()
+                imgCircle?.let {
+                    this.setImageBitmap(it)
+                } ?: this.setImageDrawable(placeHolder)
+            } else {
+                bitmap?.let {
+                    this.setImageBitmap(it)
+                } ?: this.setImageDrawable(placeHolder)
+            }
+        } catch (e: IOException) {
+            e.printStackTrace()
+            this.setImageDrawable(placeHolder)
         }
-    } catch (e: IOException) {
-        e.printStackTrace()
-        this.setImageDrawable(placeHolder)
     }
 }
 
