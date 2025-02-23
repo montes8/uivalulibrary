@@ -19,6 +19,7 @@ import android.os.Looper
 import android.os.StrictMode
 import android.util.Base64
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import androidx.exifinterface.media.ExifInterface
 import com.gb.vale.uitaylibrary.R
@@ -57,6 +58,12 @@ fun uiTayCalculateInSampleSize(bmOptions: BitmapFactory.Options): Int {
     return scaleFactor
 }
 
+fun uiTayCreateBitmapFromView(view: View): Bitmap {
+    val bitmap = Bitmap.createBitmap(view.width, view.height, Bitmap.Config.ARGB_8888)
+    val canvas = Canvas(bitmap)
+    view.draw(canvas)
+    return bitmap
+}
 
 fun uiTayImageBitmapPath(path: String): Bitmap? {
     val pathUri = File(path)
