@@ -9,6 +9,7 @@ import android.text.TextPaint
 import android.text.method.LinkMovementMethod
 import android.text.style.ClickableSpan
 import android.text.style.ForegroundColorSpan
+import android.text.style.ImageSpan
 import android.text.style.UnderlineSpan
 import android.view.View
 import android.widget.TextView
@@ -98,4 +99,24 @@ fun TextView.uiTayLine(value :String){
     myText.setSpan(UnderlineSpan(), 0, myText.length, 0)
     this.text = myText
 }
+
+@SuppressLint("UseCompatLoadingForDrawables")
+fun TextView.addIconText(text:String,icon : Int = R.drawable.ui_tay_ic_info,word: String, typeFont : Int = R.font.ui_tay_montserrat_bold) {
+    val modifiedText = "$text %icon%"
+    val span = SpannableString(modifiedText)
+    val fontBold = ResourcesCompat.getFont(this.context, typeFont)
+    val drawable = ResourcesCompat.getDrawable(context.resources,icon,null)
+    drawable?.setBounds(0, 0, drawable.intrinsicWidth, drawable.intrinsicHeight)
+    val image = drawable?.let { ImageSpan(it, ImageSpan.ALIGN_BOTTOM) }
+    val startIndex = modifiedText.indexOf("%icon%")
+    if(word.isNotEmpty()){
+        val start = text.indexOf(word)
+        val end = text.indexOf(word) + word.length
+        span.setSpan(fontBold?.let { CustomTypefaceSpan(it) }, start, end, Spanned.SPAN_EXCLUSIVE_INCLUSIVE)
+    }
+    span.setSpan(image, startIndex, startIndex + 6, Spannable.SPAN_INCLUSIVE_INCLUSIVE)
+    this.text = span
+}
+
+
 
