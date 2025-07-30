@@ -7,7 +7,7 @@
     android:id="@+id/crnaa"
     android:gravity="center"
     android:background="@color/tay_color_general"
-    tools:context="com.gb.vale.taylibrary.MainActivity">
+    tools:context="com.gb.vale.valulibrary.MainActivity">
 
 
     <View
