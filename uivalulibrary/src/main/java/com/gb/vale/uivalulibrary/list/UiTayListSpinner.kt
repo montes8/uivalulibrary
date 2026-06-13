@@ -22,28 +22,31 @@ import com.gb.vale.uivalulibrary.utils.uiTayVisibility
 fun ConstraintLayout.uiTayListSpinner(
     viewTop: View,
     list: List<String> = ArrayList(),
-    listCustom: List<UiTayModelCustom> = ArrayList(), positions: Pair<Int,Boolean> = Pair(-1,true),
-    itemCustom: Boolean = false
-    , onClickContent: () -> Unit, onClickSelected: (Int) -> Unit
+    listCustom: List<UiTayModelCustom> = ArrayList(),
+    positions: Pair<Int,Boolean> = Pair(-1,true),
+    itemCustom: Boolean = false,
+    onClickContent: () -> Unit,
+    onClickSelected: (Int) -> Unit
 ): LinearLayout {
     val linear = LinearLayout(this.context)
     if (list.isNotEmpty() || listCustom.isNotEmpty()) {
         val adapter = UiTayListAdapter()
         val adapterCustom = UiTayListCustomAdapter()
         val rvList = RecyclerView(ContextThemeWrapper(context, R.style.UITayStyleList))
+        configRvTSInit(rvList, linear, positions.second, itemCustom, list.size < 4, listCustom.size < 4)
         val constraintSet = ConstraintSet()
         constraintSet.clone(this)
-        configRvTSInit(rvList,linear,positions.second,itemCustom,list.size < 4,listCustom.size < 4)
-
-        rvList.adapter =if (itemCustom) adapterCustom else adapter
+        rvList.adapter = if (itemCustom) adapterCustom else adapter
         if (!itemCustom) adapter.selectedPosition(positions.first)
         if (itemCustom) adapterCustom.list = listCustom else adapter.list = list
-        configRvTSAction(adapterCustom,adapter,rvList,linear){ onClickSelected.invoke(it)}
+        configRvTSAction(adapterCustom, adapter, rvList, linear) { onClickSelected.invoke(it) }
         this.setOnClickListener {
             onClickContent.invoke()
-            configCtnTSRemove(rvList,linear)
+            configCtnTSRemove(rvList, linear)
         }
-        configRvTSPosition(positions.second,linear,constraintSet,viewTop)
+        configRvTSPosition(positions.second, linear, constraintSet, viewTop)
+        linear.elevation = 30f
+        linear.bringToFront()
     }
     return linear
 }

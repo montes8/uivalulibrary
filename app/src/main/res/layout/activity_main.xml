@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/crnaa"
     android:gravity="center"
+    android:padding="@dimen/dim_tay_16"
     android:background="@color/tay_color_general"
     tools:context="com.gb.vale.valulibrary.MainActivity">
 
 
-    <View
-        android:id="@+id/viewColor"
+    <com.gb.vale.uivalulibrary.label.UiTayEditBasic
         android:layout_width="match_parent"
-        android:layout_margin="@dimen/dim_tay_20"
-        android:layout_height="@dimen/dim_tay_40"/>
+        android:id="@+id/edittest"
+        app:uiTayLabelFocusable="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:uiTayLabelHint="seleciona campos"
+        android:layout_height="wrap_content"/>
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+</androidx.constraintlayout.widget.ConstraintLayout>
